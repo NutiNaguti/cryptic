@@ -1,19 +1,16 @@
 package ethereum
 
 import (
-	"github.com/umbracle/ethgo/jsonrpc"
+	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-var client *jsonrpc.Client
+var client *ethclient.Client
 
-func getClient() *jsonrpc.Client {
-	if client == nil {
-		c, err := jsonrpc.NewClient("wss://eth-ropsten.alchemyapi.io/v2/Hh2at-WBCmQNXsvbdah59LY7IPwtpEAs")
-		if err != nil {
-			panic(err)
-		}
-		client = c
+func InitClient() {
+	cl, err := ethclient.Dial("https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161")
+	if err != nil {
+		panic(err)
 	}
 
-	return client
+	client = cl
 }

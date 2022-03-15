@@ -8,13 +8,14 @@ import (
 )
 
 func main() {
+	ethereum.InitClient()
 	router := gin.Default()
 
-	router.GET("/health", healthCheck)
-	router.GET("/history", getTxs)
-	router.GET("/balance", getBalance)
+	go router.GET("/health", healthCheck)
+	go router.GET("/history", getTxs)
+	go router.GET("/balance", getBalance)
 
-	router.POST("/tx", sendTx)
+	go router.POST("/tx", sendTx)
 
 	router.Run()
 }

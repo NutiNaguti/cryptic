@@ -1,26 +1,20 @@
 package ethereum
 
 import (
+	"context"
+	"log"
 	"math/big"
-
-	"github.com/umbracle/ethgo"
 )
 
 func GetLastBlockNumber() (number uint64) {
-	number, err := getClient().Eth().BlockNumber()
+	ctx := context.Background()
+	number, err := client.BlockNumber(ctx)
 	if err != nil {
-		panic(nil)
+		log.Fatalln(err)
 	}
-
 	return
 }
 
 func GetBalance(hex string) (balance *big.Int) {
-	address := ethgo.HexToAddress(hex)
-	blockNumber := ethgo.HexToHash(hex)
-	balance, err := getClient().Eth().GetBalance(address, blockNumber)
-	if err != nil {
-		panic(err)
-	}
 	return
 }
