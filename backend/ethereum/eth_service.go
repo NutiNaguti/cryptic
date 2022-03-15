@@ -18,6 +18,11 @@ func GetLastBlockNumber() (number uint64) {
 }
 
 func GetBalance(hex string) (balance *big.Int) {
+	address := common.HexToAddress(hex)
+	balance, err := erc20.BalanceOf(nil, address)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	return
 }
 

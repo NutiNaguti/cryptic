@@ -1,10 +1,10 @@
 package main
 
 import (
+	"cryptic/config"
 	"cryptic/ethereum"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -12,18 +12,15 @@ import (
 
 func init() {
 	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found!")
+		log.Println(err)
 	}
 }
 
 func main() {
-	erc20address, exists := os.LookupEnv("ERC20_ADDRESS")
-	if !exists {
-		log.Fatalln("ERC20_ADDRESS is not exists")
-	}
+	conf := config.New()
 
-	ethereum.InitClient()
-	ethereum.InitERC20(erc20address)
+	ethereum.InitClient(conf.RPC_URL)
+	ethereum.InitERC20(conf.ERC20_ADDRESS)
 	router := gin.Default()
 
 	go router.GET("/health", healthCheck)

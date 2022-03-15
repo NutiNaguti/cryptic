@@ -11,8 +11,8 @@ import (
 var client *ethclient.Client
 var erc20 *contracts.Contracts
 
-func InitClient() {
-	cl, err := ethclient.Dial("https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161")
+func InitClient(urlRpc string) {
+	cl, err := ethclient.Dial(urlRpc)
 	if err != nil {
 		panic(err)
 	}
