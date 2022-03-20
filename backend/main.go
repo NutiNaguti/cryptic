@@ -25,7 +25,8 @@ func main() {
 
 	go router.GET("/health", healthCheck)
 	go router.GET("/history", getTxs)
-	go router.GET("/balance", getBalance)
+	go router.GET("/balance/:address", getBalance)
+	go router.GET("/erc20balance/:address/:wallet", getERC20Balance)
 
 	go router.POST("/donate", donate)
 
@@ -35,6 +36,13 @@ func main() {
 func healthCheck(c *gin.Context) {
 	blockNumber := ethereum.GetLastBlockNumber()
 	c.IndentedJSON(http.StatusOK, blockNumber)
+}
+
+func getERC20Balance(c *gin.Context) {
+	address := c.Param("address")
+	wallet := c.Param("wallet")
+	balance := ethereum.GetERC20Balance(address, wallet)
+	c.IndentedJSON(http.StatusOK, balance)
 }
 
 func getBalance(c *gin.Context) {
